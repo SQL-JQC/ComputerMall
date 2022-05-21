@@ -1,0 +1,101 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: mall-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.182.129:8848
+        namespace: 10cbb72c-26a6-4f66-9699-edca4129d940
+      config:
+        server-addr: 192.168.182.129:8848
+        namespace: 10cbb72c-26a6-4f66-9699-edca4129d940
+        group: DEFAULT_GROUP
+        file-extension: yaml
+        extension-configs:
+          - data-id: openfeign.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: sentinel.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: zipkin.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: mall-product
+          uri: lb://mall-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        - id: mall-third-party
+          uri: lb://mall-third-party
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/thirdparty/(?<segment>.*),/$\{segment}
+        - id: mall-member
+          uri: lb://mall-member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        - id: mall-coupon
+          uri: lb://mall-coupon
+          predicates:
+            - Path=/api/coupon/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        - id: mall-order
+          uri: lb://mall-order
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        - id: mall-ware
+          uri: lb://mall-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        - id: renren-fast
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+        - id: mall_host_route
+          uri: lb://mall-product
+          predicates:
+            - Host=qin.com,item.qin.com
+        - id: mall_search_route
+          uri: lb://mall-search
+          predicates:
+            - Host=search.qin.com
+        - id: mall_auth_route
+          uri: lb://mall-auth-server
+          predicates:
+            - Host=auth.qin.com
+        - id: mall_cart_route
+          uri: lb://mall-cart
+          predicates:
+            - Host=cart.qin.com
+        - id: mall_order_route
+          uri: lb://mall-order
+          predicates:
+            - Host=order.qin.com
+        - id: mall_member_route
+          uri: lb://mall-member
+          predicates:
+            - Host=member.qin.com
+        - id: mall_seckill_route
+          uri: lb://mall-seckill
+          predicates:
+            - Host=seckill.qin.com

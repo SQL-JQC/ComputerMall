@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    active: dev
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss

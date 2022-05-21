@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: mall-coupon
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.182.129:8848
+        namespace: 10cbb72c-26a6-4f66-9699-edca4129d940
+        register-enabled: true
+      config:
+        server-addr: 192.168.182.129:8848
+        namespace: 10cbb72c-26a6-4f66-9699-edca4129d940
+        enabled: true
+        group: DEFAULT_GROUP
+        file-extension: yaml
+        extension-configs:
+          - data-id: jackson.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: mybatisplus.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: sentinel.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: zipkin.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+
+#seata:
+#  enabled: true
+#  enable-auto-data-source-proxy: true
+#  use-jdk-proxy: false
+#  application-id: ${spring.application.name}
+#  tx-service-group: ${spring.application.name}-tx-group
+#  registry:
+#    type: nacos
+#    nacos:
+#      application: seata-server
+#      server-addr: 192.168.182.129:8848
+#      group: SEATA_GROUP
+#      namespace: e8ac5b25-2f6d-4d5f-a5bc-89c8b030b37c
+#      username: nacos
+#      password: nacos
+#  config:
+#    type: nacos
+#    nacos:
+#      namespace: e8ac5b25-2f6d-4d5f-a5bc-89c8b030b37c
+#      server-addr: 192.168.182.129:8848
+#      group: SEATA_GROUP
+#      username: nacos
+#      password: nacos
+#  service:
+#    vgroup-mapping:
+#      account-service-tx-group: default
+#    grouplist:
+#      default: 192.168.182.129:8091
+#    enable-degrade: false
+#    disable-global-transaction: false
